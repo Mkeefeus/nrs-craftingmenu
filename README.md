@@ -16,7 +16,7 @@ Check out the demo: https://mkeefeus.github.io/NRCM/
 -CREDITS-  
 Project Error - Boilerplate  
 Overextended - ConfigProvider  
-QW-Crafting - Original inspiration
+QW-Crafting - Original inspiration  
 Mycroft Studios - ESX Support
 
 
