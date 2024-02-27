@@ -1,16 +1,6 @@
-                    
-.  . ,-.       ,-.  .         .           
-|\ | |  )     (   ` |         | o         
-| \| |-<  ---  `-.  |-  . . ,-| . ,-. ,-. 
-|  | |  \     .   ) |   | | | | | | | `-. 
-'  ' '  '      `-'  `-' `-` `-' ' `-' `-'
------------------------------------------
-
 # NR-CraftingMenu
 
 This is a "all-in-one" crafting menu UI that can be infinately scaled simply by adding a new menu to a detailed configuration, making this your go-to crafting resource.
-
-Check out the demo: https://mkeefeus.github.io/NRCM/
 
 ## INSTALLATION
 
