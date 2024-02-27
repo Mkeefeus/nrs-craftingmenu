@@ -12,10 +12,32 @@ function Framework.CancelEmote()
 end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    createCraftingZones()
+    CreateCraftingZones()
 end)
 
 Framework.target.sphere = function (data)
+    for _, optionData in ipairs(data.options) do
+        if optionData.job or optionData.gang then
+            local groups = {}
+            if type(optionData.job) == 'string' then
+                groups[#groups + 1] = optionData.job
+            elseif type(optionData.job) == 'table' then
+                for job, grade in pairs(optionData.job) do
+                    groups[job] = grade
+                end
+            end
+            if type(optionData.gang) == 'string' then
+                groups[#groups + 1] = optionData.gang
+            elseif type(optionData.gang) == 'table' then
+                for gang, rank in pairs(optionData.gang) do
+                    groups[gang] = rank
+                end
+            end
+            optionData.groups = groups
+            optionData.job = nil
+            optionData.gang = nil
+        end
+    end
     return exports['ox_target']:addSphereZone(data)
 end
 

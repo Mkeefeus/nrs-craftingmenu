@@ -1,8 +1,8 @@
 .summary-container {
-    display: flex;
-    background-color: var(--primary-color);
-    flex-direction: column;
-    flex: 3 0;
-    gap: 10px;
-    border-radius: 10px;
+  display: flex;
+  background-color: var(--primary-color);
+  flex-direction: column;
+  flex: 3 0;
+  gap: 10px;
+  border-radius: 10px;
 }

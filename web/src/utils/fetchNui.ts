@@ -1,4 +1,4 @@
-import { isEnvBrowser } from "./misc";
+import { isEnvBrowser } from './misc';
 
 /**
  * Simple wrapper around fetch API tailored for CEF/NUI use. This abstraction
@@ -12,7 +12,11 @@ import { isEnvBrowser } from "./misc";
  * @return returnData - A promise for the data sent back by the NuiCallbacks CB argument
  */
 
-export async function fetchNui<T = any>(eventName: string, data?: any, mockData?: T): Promise<T> {
+export async function fetchNui<T = any>(
+  eventName: string,
+  data?: any,
+  mockData?: T
+): Promise<T> {
   const options = {
     method: 'post',
     headers: {
@@ -23,11 +27,13 @@ export async function fetchNui<T = any>(eventName: string, data?: any, mockData?
 
   if (isEnvBrowser() && mockData) return mockData;
 
-  const resourceName = (window as any).GetParentResourceName ? (window as any).GetParentResourceName() : 'nui-frame-app';
+  const resourceName = (window as any).GetParentResourceName
+    ? (window as any).GetParentResourceName()
+    : 'nui-frame-app';
 
   const resp = await fetch(`https://${resourceName}/${eventName}`, options);
 
-  const respFormatted = await resp.json()
+  const respFormatted = await resp.json();
 
-  return respFormatted
+  return respFormatted;
 }

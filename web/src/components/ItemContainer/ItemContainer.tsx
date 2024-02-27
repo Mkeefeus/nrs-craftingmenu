@@ -1,6 +1,6 @@
-import ItemGrid from "../ItemGrid/ItemGrid";
-import SummaryContainer from "../SummaryContainer/SummaryContainer";
-import "./ItemContainer.css";
+import ItemGrid from '../ItemGrid/ItemGrid';
+import SummaryContainer from '../SummaryContainer/SummaryContainer';
+import './ItemContainer.css';
 
 const ItemContainer = () => {
   return (

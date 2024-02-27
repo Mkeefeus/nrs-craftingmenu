@@ -1,9 +1,9 @@
-import "./SummaryCosts.css";
-import SummaryRequiredItem from "../SummaryRequiredItem/SummaryRequiredItem";
-import { CraftableItem, RequiredItem } from "../../typings/Items";
-import InventoryItem from "../../typings/Inventory";
-import { useShopData } from "../../providers/ShopDataProvider";
-import { useInventory } from "../../providers/InventoryProvider";
+import './SummaryCosts.css';
+import SummaryRequiredItem from '../SummaryRequiredItem/SummaryRequiredItem';
+import { CraftableItem, RequiredItem } from '../../typings/Items';
+import InventoryItem from '../../typings/Inventory';
+import { useShopData } from '../../providers/ShopDataProvider';
+import { useInventory } from '../../providers/InventoryProvider';
 
 interface SummaryCostsProps {
   items: CraftableItem[];
@@ -16,11 +16,11 @@ interface RequiredItemsObject {
 
 const SummaryCosts = () => {
   const requiredItems: RequiredItemsObject = {};
-  const {items, labels} = useShopData();
+  const { items, labels } = useShopData();
   const plyInventory = useInventory();
 
   items.forEach((item: CraftableItem) => {
-    const amount = item.amountSelected || 0;
+    const amount = (item.amountSelected || 0) / (item.craftedAmount || 1);
     if (amount > 0) {
       item.requiredItems.forEach((requiredItem: RequiredItem) => {
         requiredItems[requiredItem.name] = requiredItems[requiredItem.name] || {
@@ -35,7 +35,7 @@ const SummaryCosts = () => {
 
   return (
     <div className="summary-cost-item">
-      <h2 className="summary-cost-header">{labels.costs || 'Recipe Costs'}</h2>
+      <h2 className="summary-cost-header">{labels?.costs || 'Recipe Costs'}</h2>
       <div className="im-tired-of-this-grandpa">
         {Object.keys(requiredItems).map((name: string) => {
           return (

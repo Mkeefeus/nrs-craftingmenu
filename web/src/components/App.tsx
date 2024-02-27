@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import { debugData } from "../utils/debugData";
-import { fetchNui } from "../utils/fetchNui";
-import MenuHeader from "./MenuHeader/MenuHeader";
-import ItemContainer from "./ItemContainer/ItemContainer";
-import SearchBar from "./SearchBar/SearchBar";
-import { isEnvBrowser } from "../utils/misc";
-import { CraftableItem } from "../typings/Items";
-import DebugShop from "./DebugShop";
-import InventoryProvider from "../providers/InventoryProvider";
-import SearchProvider from "../providers/SearchProvider";
-import { useShopData } from "../providers/ShopDataProvider";
+import { useEffect, useState } from 'react';
+import './App.css';
+import { debugData } from '../utils/debugData';
+import { fetchNui } from '../utils/fetchNui';
+import MenuHeader from './MenuHeader/MenuHeader';
+import ItemContainer from './ItemContainer/ItemContainer';
+import SearchBar from './SearchBar/SearchBar';
+import { isEnvBrowser } from '../utils/misc';
+import { CraftableItem } from '../typings/Items';
+import DebugShop from './DebugShop';
+import InventoryProvider from '../providers/InventoryProvider';
+import SearchProvider from '../providers/SearchProvider';
+import { useShopData } from '../providers/ShopDataProvider';
 
 interface ItemsToCraft {
   name: string;
@@ -21,45 +21,45 @@ interface ItemsToCraft {
 // developing in browser
 debugData([
   {
-    action: "setVisible",
+    action: 'setVisible',
     data: true,
   },
 ]);
 
 debugData([
   {
-    action: "setShopData",
+    action: 'setShopData',
     data: DebugShop(),
   },
 ]);
 
 const App = () => {
-  const [shopItems] = useState<CraftableItem[]>([]);
-
-  const { labels } = useShopData();
+  const { labels, items } = useShopData();
 
   useEffect(() => {
-    fetchNui("uiLoaded", {}, {});
+    fetchNui('uiLoaded', {}, {});
   }, []);
 
   const handleSubmitClick = () => {
     const itemsToCraft: ItemsToCraft[] = [];
-    shopItems.forEach((item: CraftableItem) => {
+    items.forEach((item: CraftableItem) => {
       if (item.amountSelected && item.amountSelected > 0) {
-        item.amountSelected = itemsToCraft.push({
+        itemsToCraft.push({
           name: item.name,
-          amount: item.amountSelected,
+          amount: item.craftedAmount
+            ? item.amountSelected / item.craftedAmount
+            : item.amountSelected,
         });
       }
     });
-    fetchNui("craftItems", itemsToCraft, {});
-    fetchNui("closeCraftingMenu", null, {});
+    fetchNui('craftItems', itemsToCraft, {});
+    fetchNui('closeCraftingMenu', null, {});
   };
 
   return (
     <div
       className="nui-wrapper"
-      style={{ backgroundColor: isEnvBrowser() ? "grey" : undefined }}
+      style={{ backgroundColor: isEnvBrowser() ? 'grey' : undefined }}
     >
       <div className="main-container">
         <MenuHeader />
@@ -70,7 +70,7 @@ const App = () => {
           </InventoryProvider>
         </SearchProvider>
         <button className="submit-button" onClick={handleSubmitClick}>
-          {labels.submit || "Craft"}
+          {labels?.submit || 'Craft'}
         </button>
       </div>
     </div>

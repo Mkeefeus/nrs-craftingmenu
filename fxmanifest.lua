@@ -2,8 +2,7 @@ fx_version "cerulean"
 
 description "Crafting Menu for New Reign Roleplay"
 author "Mkeefeus & MrMark1127"
-version '1.0.0'
-repository 'https://github.com/New-Reign-Roleplay/nr-craftingmenu'
+version '1.1.3'
 
 lua54 'yes'
 game 'gta5'
@@ -11,14 +10,20 @@ game 'gta5'
 ui_page 'web/build/index.html'
 
 client_scripts {
-    "framework/client/qbcore.lua", -- CHANGE THIS TO YOUR FRAMEWORK
+    "framework/client/*.lua", -- CHANGE THIS TO YOUR FRAMEWORK
     "client/client.lua",
     "client/utils.lua",
 }
 
 server_scripts {
-    'framework/server/qbcore.lua', -- CHANGE THIS TO YOUR FRAMEWORK
+    'framework/server/*.lua', -- CHANGE THIS TO YOUR FRAMEWORK
     "server/server.lua"
+}
+
+escrow_ignore {
+    'framework/**/*',
+    'config.lua',
+    'fxmanifest.lua',
 }
 
 dependencies {

@@ -1,14 +1,14 @@
-import { CraftableItem, RequiredItem } from "../../typings/Items";
-import { useSearch } from "../../providers/SearchProvider";
-import { useShopData } from "../../providers/ShopDataProvider";
-import RecipeCard from "../RecipeCard/RecipeCard";
-import "./ItemGrid.css";
+import { CraftableItem, RequiredItem } from '../../typings/Items';
+import { useSearch } from '../../providers/SearchProvider';
+import { useShopData } from '../../providers/ShopDataProvider';
+import RecipeCard from '../RecipeCard/RecipeCard';
+import './ItemGrid.css';
 
 const ItemGrid = () => {
-  const {searchText} = useSearch();
-  const {items, setItems} = useShopData();
+  const { searchText } = useSearch();
+  const { items, setItems } = useShopData();
   const filteredItems = items.filter((item: CraftableItem) => {
-    let include = searchText === "";
+    let include = searchText === '';
     // If the item name (label) has the search text in it
     if (item.label.toLowerCase().includes(searchText)) {
       include = true;
@@ -37,7 +37,7 @@ const ItemGrid = () => {
         // otherwise return the original item
         return shopItem;
       });
-    })
+    });
   };
 
   return (

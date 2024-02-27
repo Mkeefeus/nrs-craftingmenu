@@ -1,7 +1,6 @@
-import { useSearch } from "../../providers/SearchProvider";
-import "./SearchBar.css";
-import React, { useState, useEffect } from "react";
-
+import { useSearch } from '../../providers/SearchProvider';
+import './SearchBar.css';
+import React, { useState, useEffect } from 'react';
 
 const SearchBar = () => {
   const { setSearchText } = useSearch();
@@ -13,7 +12,11 @@ const SearchBar = () => {
 
   return (
     <div className="search-bar-container">
-        <input className="search-bar-style" placeholder="Search Craftable Items..." onChange={handleSearch}/>
+      <input
+        className="search-bar-style"
+        placeholder="Search Craftable Items..."
+        onChange={handleSearch}
+      />
     </div>
   );
 };

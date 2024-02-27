@@ -1,3 +1,3 @@
 export default interface InventoryItem {
-    [key: string]: number;
+  [key: string]: number;
 }

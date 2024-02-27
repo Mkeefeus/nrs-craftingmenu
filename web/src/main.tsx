@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </ShopDataProvider>
       </ConfigProvider>
     </VisibilityProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

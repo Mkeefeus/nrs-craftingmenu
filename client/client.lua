@@ -1,40 +1,48 @@
-local ox_target = exports.ox_target
 local playingEmote = false
 local currentShop = nil
 local uiReady = false
 
-local function SetDisplay(shopData)
+local function OpenNUI(shopData)
     SetNuiFocus(true, true)
     SendReactMessage('setShopData', {
         shop = shopData,
         plyInventory = lib.callback.await('nr-craftingmenu:server:getPlayerInventory')
     })
     SendReactMessage('setVisible', true)
+    if Config.Debug or Config.Logs?.onOpen then
+        debugPrint('Open NUI frame')
+        TriggerServerEvent('nr-craftingmenu:server:log', 'open', {location = currentShop})
+    end
 end
 
 local function CloseNUI()
     SetNuiFocus(false, false)
     SendReactMessage('setVisible', false)
-    debugPrint('Hide NUI frame')
+    local shop = currentShop
     currentShop = nil
+    if Config.Debug or Config.Logs?.onClose then
+        debugPrint('Close NUI frame')
+        TriggerServerEvent('nr-craftingmenu:server:log', 'close', {location = shop})
+    end
 end
 
-function createCraftingZones()
-    for k, v in pairs(Config.CraftingLocations) do
-        if v.zoneId then goto continue end
-        v.zoneId = Framework.target.sphere({
-            coords = v.coords,
-            radius = v.raduis or 1.0,
+function CreateCraftingZones()
+    for shopName, shopData in pairs(Config.CraftingLocations) do
+        if shopData.zoneId then goto continue end
+        shopData.zoneId = Framework.target.sphere({
+            coords = shopData.coords,
+            radius = shopData.raduis or 1.0,
             debug = Config.Debug,
-            name = "nr-crafting_" .. k,
+            name = "nr-crafting_" .. shopName,
             options = {
                 {
                     icon = 'fa-solid fa-ruler',
                     label = "Craft",
-                    groups = (v.job or v.group),
+                    job = shopData.job,
+                    gang = shopData.gang,
                     onSelect = function()
-                        currentShop = k
-                        TriggerEvent('nr-craftingmenu:client:openCrafting', k)
+                        currentShop = shopName
+                        TriggerEvent('nr-craftingmenu:client:openCrafting', shopName)
                     end,
                     canInteract = function()
                         return uiReady
@@ -49,7 +57,7 @@ end
 lib.callback.register('nr-craftingmenu:client:progressbar', function(itemData, shop)
     if not playingEmote then
         local tableData = Config.CraftingLocations[shop]
-        if tableData.emote then
+        if tableData.emote and Framework.PlayEmote then
             Framework.PlayEmote(tableData.emote)
             playingEmote = true
         elseif tableData.scenario then
@@ -60,7 +68,7 @@ lib.callback.register('nr-craftingmenu:client:progressbar', function(itemData, s
             TaskPlayAnim(PlayerPedId(), tableData.animDict, tableData.anim, 8.0, 8.0, -1, tableData.animFlag or 1, 0, false,
                 false, false)
         else
-            if not Config.DefaultEmote then return end
+            if not Config.DefaultEmote or not Framework.PlayEmote then return end
             Framework.PlayEmote(Config.DefaultEmote)
             playingEmote = true
         end
@@ -80,7 +88,7 @@ end)
 
 RegisterNetEvent('nr-craftingmenu:client:openCrafting', function(tableName)
     local tableData = Config.CraftingLocations[tableName]
-    SetDisplay({ items = tableData.items, label = tableData.label })
+    OpenNUI({ items = tableData.items, labels = tableData.labels })
 end)
 
 RegisterNetEvent("nr-craftingmenu:client:updateCraftingLocations", function(name, data)
@@ -89,18 +97,18 @@ RegisterNetEvent("nr-craftingmenu:client:updateCraftingLocations", function(name
     end
     Config.CraftingLocations[name] = data
     if not data then return end
-    createCraftingZones()
+    CreateCraftingZones()
 end)
 
 RegisterNetEvent('nr-craftingmenu:client:cancelEmote', function ()
-    if not playingEmote then return end
+    if not Framework.CancelEmote or not playingEmote then return end
     Framework.CancelEmote()
     playingEmote = false
 end)
 
 CreateThread(function () -- onResourceStart
     if LocalPlayer.state.isLoggedIn then
-        createCraftingZones()
+        CreateCraftingZones()
     end
 end)
 

@@ -1,6 +1,6 @@
-import SummaryCosts from "../SummaryCosts/SummaryCosts";
-import SummaryCrafting from "../SummaryCrafting/SummaryCrafting";
-import "./SummaryContainer.css";
+import SummaryCosts from '../SummaryCosts/SummaryCosts';
+import SummaryCrafting from '../SummaryCrafting/SummaryCrafting';
+import './SummaryContainer.css';
 
 const SummaryContainer = () => {
   return (
