@@ -2,6 +2,10 @@
 
 This is a "all-in-one" crafting menu UI that can be infinately scaled simply by adding a new menu to a detailed configuration, making this your go-to crafting resource.
 
+## ARCHIVED
+
+This resource is archived. We do not intend to do any further development of this resource. To the best of our knowledge there are no bugs or outstanding issues as of today.
+
 ## INSTALLATION
 
 1. Install ox_lib https://github.com/overextended/ox_lib.
